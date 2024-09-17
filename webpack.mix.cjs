@@ -10,9 +10,5 @@ require('dotenv').config();
  | file for the application as well as bundling up all the JS files.
  |
  */
-
- mix.react('resources/js/index.jsx', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css')
-   .styles(['public/assets/css/styles.css'], 'public/assets/css/styles.min.css')
-   ;
+ mix.js('resources/js/index.jsx', 'public/js').react();
 
