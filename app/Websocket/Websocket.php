@@ -27,8 +27,8 @@ class Websocket implements MessageComponentInterface
     public function onMessage(ConnectionInterface $from, $msg) {
 
         Log::info("0000000000000000  onMessage  msg = " . $msg);
-        echo "\n0001-----------------------------------Начало-----------------------------------------0001";
-        echo "\n--------     " . json_encode(Carbon::now()->format('Y-m-d H:i:s')) . "     -----------\n";
+        echo "\n0001-------Начало-------------";
+        echo "\n------     " . json_encode(Carbon::now()->format('Y-m-d H:i:s')) . "     ----\n";
         $stdout = fopen('php://stdout', 'w');
         fwrite($stdout, $msg);
         $data = json_decode($msg);

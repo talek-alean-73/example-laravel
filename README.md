@@ -1,66 +1,93 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+## Создать докер контейнеры:
+    в консоли Перейти в корневой каталог и выполнить команду
+    ```docker-compose up -d --build ```
+## Зайти в докер-контейнер php:
+    в консоли выполнить команду
+    ```docker ps```
+    посмотреть CONTAINER ID контейнера для  example6-php-1 (image example6-php) и выполнить в консоли команду
+    ```docker exec -it 21491c93750c sh```     (вместо 21491c93750c написать свой CONTAINER ID)
+## Установить зависимости через composer
+    выполнить в этом контейнере команду
+    ```composer install```    (это можно выполнить и вне контейнера, если установлен глобально composer)
+## Установить зависимости для react
+    открываем новое окно консоли, выполняем команду
+    ```docker ps```
+    посмотреть CONTAINER ID контейнера для  laravel_node (image node:18-alpine) и выполнить в консоли команду
+    ```docker exec -it 61ee9529a4c1 sh```   (вместо 61ee9529a4c1 написать свой CONTAINER ID)
+    в этом контейнере запускаем команду
+    ```npm install```
+## Запускаем сокет
+    в php контейнере выполнить команду
+    ```php artisan websocket:serve```
+    здесь будут отображаться все сообщения, которые будут отправлены в сокет
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    для дополнительной проверки работы сокета на бекенде можно установить библиотеку - в отдельной консоли, не в контейнере
+    ```npm install -g wscat```  (не в контейнере)
+    подключаемся к сокету
+    ```wscat -c ws://localhost:8080``` (не в контейнере)
+    отправляем там сообщения и там же они также будут отображаться
+## Запускаем отслеживание изменений для реакт (чтобы любые изменения в коде компилировались в js)
+    в контейнере node выполнить команду
+    ```npm run watch```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Теперь все готово для работы
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Для проверки работы сокета:
+    открываем 2 разных браузера и в адресных строках прописываем 
+    ```http://localhost```
 
-## Learning Laravel
+    в любом из браузеров в строке ввода пишем текст и нажимаем 'Отправить'
+    этот текст будет отправлен в сокет, а потом вернется на все страницы, у которых url = http://localhost
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Дополнительные команды для работы с проектом
+    всех их нужно выполнять контейнере php  -  example6-php-1 (image example6-php)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    создать контроллер
+    ```php artisan make:controller UserController```
 
-## Laravel Sponsors
+    создать модель (С большой буквы, в единственном числе)
+    ```php artisan make:model SocketSecurit```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    создать таблицу (имя таблицы во множественном числе)
+    ```php artisan make:migration create_room_attach_operators_table --create=room_attach_operators```
+    здесь имя таблицы room_attach_operators
 
-### Premium Partners
+    после того как создавалась таблица, нужно выполнить команду
+    ```php artisan migrate```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+## Команды работы с докером
+    запускаем 
+        ```docker-compose up -d ```
+        должно все без ошибок
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    чтобы зайти в терминал пакета
+            смотрим какие пакеты
+            ```docker ps```
+        зайти в контейнер
+        ```docker exec -it f9fc91edccc3 sh```
+    посмотреть все контейнеры
+        ```docker ps -a```
+    удалить контейнеры
+        ```docker rm <id>```
 
-## Code of Conduct
+    запустить на создание контейнера
+        ```docker-compose up -d --build```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Для работы в контейнере mysql
+    подключаемся к базе данных   user - имя пользователя 123456 - пароль 
+    в конце каждой команды должна быть ';'
+    ```mysql -uuser -p123456;```
 
-## License
+    ```use laravel;```    здесь laravel это имя базы данных
+    
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```show tables;```   -     показать список таблиц в базе данных
+     
+
+
