@@ -37,6 +37,9 @@ services:
       - ./:/var/www/
     ports:
       - "80:80"
+      - "9001:9001"
+      - "9003:9003"
+      - "8000:8000"
     networks:
       - web
     depends_on:
@@ -53,6 +56,8 @@ services:
       - ./:/var/www/
     networks:
       - web
+    ports:
+      - "8080:8080"
 
   mysql:
     image: mysql:8.3

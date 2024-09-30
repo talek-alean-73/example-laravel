@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,9 +14,11 @@ use App\Http\Controllers\PageController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+Route::get('/', [PageController::class, 'index']);
 Route::get('/page', [PageController::class, 'page']);
-
+Route::post('/chat',[ChatController::class, 'store']);
+Route::post('/messages', [ChatsController::class, 'sendMessage']);
 
