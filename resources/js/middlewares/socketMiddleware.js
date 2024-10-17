@@ -46,7 +46,7 @@ const socketMiddleware = () => {
     
     const  initSocket = (store, payload)=>{
         if ((wsSocket === null || (wsSocket && wsSocket.readyState === 3)) )  {
-            wsSocket = new WebSocket("ws://localhost:8080");
+            wsSocket = new WebSocket("ws://localhost:8081");
             wsSocket.onmessage = (event) => onMessage(store, event);
             wsSocket.onopen = (event) => onOpen(event, store, payload);
             wsSocket.onclose = (event) => onClose(store, payload, event);
